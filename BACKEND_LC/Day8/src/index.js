@@ -17,7 +17,10 @@ const cors = require('cors')
 //     credentials:true
 // }))
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: [
+        "http://localhost:5173",
+        "https://codearena-two-gamma.vercel.app"
+    ],
     credentials: true,
 }));
 // Middleware
