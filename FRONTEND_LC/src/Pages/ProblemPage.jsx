@@ -17,6 +17,9 @@ const ProblemPage = () => {
   //const [submitResult, setSubmitResult] = useState(null);
   const [activeLeftTab, setActiveLeftTab] = useState('description');
   const [activeRightTab, setActiveRightTab] = useState('code');
+const [videoData, setVideoData] = useState(null);
+const [videoError, setVideoError] = useState("");
+const [videoLoading, setVideoLoading] = useState(false);
   const editorRef = useRef(null);
   let {problemId}  = useParams();
 
@@ -222,6 +225,29 @@ const ProblemPage = () => {
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
   };
+ const fetchPremiumVideo = async () => {
+  try {
+    setVideoLoading(true);
+    setVideoError("");
+
+    const { data } = await axiosClient.get(
+      `/video/watch/${problemId}`
+    );
+
+    setVideoData(data);
+
+  } catch (err) {
+
+    if (err.response?.status === 403) {
+      setVideoError("PREMIUM");
+    } else {
+      setVideoError("Something went wrong");
+    }
+
+  } finally {
+    setVideoLoading(false);
+  }
+};
 //COMMENTING CUZ JUDGE0 API NOT BOUGHT ABHI
   // const handleRun = async () => {
   //   setLoading(true);
@@ -376,7 +402,15 @@ Chat AI
                 <div className="prose max-w-none">
                   <h2 className="text-xl font-bold mb-4">Editorial</h2>
                   <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                    <Editorial secureUrl={problem.secureUrl} thumbnailUrl={problem.thumbnailUrl} duration={problem.duration} />
+                    {/* <Editorial secureUrl={problem.secureUrl} thumbnailUrl={problem.thumbnailUrl} duration={problem.duration} /> */}
+                    <Editorial
+    secureUrl={videoData?.secureUrl}
+    thumbnailUrl={videoData?.thumbnailUrl}
+    duration={videoData?.duration}
+    loading={videoLoading}
+    error={videoError}
+    fetchVideo={fetchPremiumVideo}
+/>
                   </div>
                 </div>
               )}
