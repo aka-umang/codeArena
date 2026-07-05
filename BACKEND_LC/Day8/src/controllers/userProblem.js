@@ -151,6 +151,17 @@ const getProblemById = async(req,res)=>{
 
    const getProblem = await Problem.findById(id) .select('_id title description difficulty tags visibleTestCases startCode referenceSolution ')  
    if(!getProblem) return res.status(404).send("problem is missing")
+
+      const videos = await SolutionVideo.find({problemId:id});
+
+   if(videos){    
+   getProblem.secureUrl = secureUrl;
+   getProblem.cloudinaryPublicId = cloudinaryPublicId;
+   getProblem.thumbnailUrl = thumbnailUrl;
+   getProblem.duration = duration;
+
+   return res.status(200).send(getProblem);
+   }
     res.status(200).send(getProblem)   
   }
   catch{
