@@ -11,10 +11,11 @@ router.post('/admin/register',adminMiddleware,adminRegister);
 router.delete('/deleteProfile',userMiddleware,deleteProfile)
 router.get('/check',userMiddleware,(req,res)=>{
     const reply={
-       fiirstName:req.user.fiirstName,
+       firstName:req.user.firstName,
        emailId:req.user.emailId,
        _id: req.user._id,
-       role:req.user.role
+       role:req.user.role,
+       isPremium: req.user.isPremium
     }
     res.status(200).json({
         user:reply,
