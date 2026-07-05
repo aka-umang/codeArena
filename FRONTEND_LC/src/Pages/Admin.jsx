@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash2, Home, RefreshCw, Zap } from 'lucide-react';
+import { Plus, Edit, Trash2, Home, RefreshCw, Zap ,Video} from 'lucide-react';
 import { NavLink } from 'react-router';
 
 function Admin() {
@@ -24,16 +24,26 @@ function Admin() {
       bgColor: 'bg-warning/10',
       route: '/admin/update'
     },
-    {
-      id: 'delete',
-      title: 'Delete Problem',
-      description: 'Remove problems from the platform',
-      icon: Trash2,
-      color: 'btn-error',
-      bgColor: 'bg-error/10',
-      route: '/admin/delete'
+      {
+        id: 'delete',
+        title: 'Delete Problem',
+        description: 'Remove problems from the platform',
+        icon: Trash2,
+        color: 'btn-error',
+        bgColor: 'bg-error/10',
+        route: '/admin/delete'
+      },
+      {
+      id: 'videos',
+      title: 'Manage Solution Videos',
+      description: 'Add or update solution videos for problems',
+      icon: Video,
+      color: 'btn-info',
+      bgColor: 'bg-info/10',
+      route: '/admin/videos'
     }
   ];
+
 
   return (
     <div className="min-h-screen bg-base-200">

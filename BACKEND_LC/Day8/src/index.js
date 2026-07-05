@@ -10,6 +10,7 @@ const Redisclient = require('./config/redis');
 const problemRouter=require('./routes/problemCreator')
 const submitRouter = require('./routes/submit')
 const aiRouter = require('./routes/aiChatting')
+const videoRouter = require('./routes/videoCreator')
 const cors = require('cors')
 app.use(cors({
     origin:'http://localhost:5173',
@@ -30,7 +31,7 @@ app.use('/user', authRouter);
 app.use('/problem',problemRouter)
 app.use('/submission',submitRouter)
 app.use('/ai', aiRouter);
-
+app.use('/video', videoRouter);
 const InitializeConnection = async () => {
     try {
         await Promise.all([main(), Redisclient.connect()]);
