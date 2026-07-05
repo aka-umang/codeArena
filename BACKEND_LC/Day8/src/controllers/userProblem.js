@@ -154,15 +154,19 @@ const getProblemById = async(req,res)=>{
    if(!getProblem) return res.status(404).send("problem is missing")
 
       const videos = await SolutionVideo.findOne({problemId:id});
-
-   if(videos){    
-   getProblem.secureUrl = videos.secureUrl;
-   getProblem.cloudinaryPublicId = videos.cloudinaryPublicId;
-   getProblem.thumbnailUrl = videos.thumbnailUrl;
-   getProblem.duration = videos.duration;
-
-   return res.status(200).send(getProblem);
+res.status(200).sen
+   if(videos){   
+    
+   const responseData = {
+    ...getProblem.toObject(),
+    secureUrl:videos.secureUrl,
+    thumbnailUrl : videos.thumbnailUrl,
+    duration : videos.duration,
+   } 
+  
+   return res.status(200).send(responseData);
    }
+    
     res.status(200).send(getProblem)   
   }
   catch (err) {

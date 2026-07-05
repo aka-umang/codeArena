@@ -86,16 +86,17 @@ const saveVideoMetadata = async (req, res) => {
       return res.status(409).json({ error: 'Video already exists' });
     }
 
-    const thumbnailUrl = cloudinary.url(cloudinaryResource.public_id, {
-    resource_type: 'image',  
-    transformation: [
-    { width: 400, height: 225, crop: 'fill' },
-    { quality: 'auto' },
-    { start_offset: 'auto' }  
-    ],
-    format: 'jpg'
-    });
+    // const thumbnailUrl = cloudinary.url(cloudinaryResource.public_id, {
+    // resource_type: 'image',  
+    // transformation: [
+    // { width: 400, height: 225, crop: 'fill' },
+    // { quality: 'auto' },
+    // { start_offset: 'auto' }  
+    // ],
+    // format: 'jpg'
+    // });
 
+    const thumbnailUrl = cloudinary.image(cloudinaryResource.public_id,{resource_type: "video"})
     // Create video solution record
     const videoSolution = await SolutionVideo.create({
       problemId,
