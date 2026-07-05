@@ -50,6 +50,10 @@ const login=async(req,res)=>{
         if(!password)
             throw new Error('Invalid credentials');
         const user=await User.findOne({emailId});
+        if (!user) {
+    throw new Error("Invalid credentials");
+}
+
         const ans=await bcrypt.compare(password,user.password);
         if(!ans)
             throw new Error('Invalid credentials');
