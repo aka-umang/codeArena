@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 
 const jwt = require('jsonwebtoken');
 const redisClient = require('../config/redis')
+const isProduction = process.env.NODE_ENV === "production";
 
 const register=async(req,res)=>{
     try{
@@ -23,7 +24,12 @@ const register=async(req,res)=>{
             emailId:user.emailId,
             _id:user._id
         }
-         res.cookie('token',token,{maxAge:60*60*1000});
+         res.cookie("token", token, {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "None" : "Lax",
+    maxAge: 60 * 60 * 1000,
+});
          res.status(201).json({
             user:reply,
             message:"registered"
@@ -64,7 +70,18 @@ const login=async(req,res)=>{
             _id:user._id
         }
         const token=jwt.sign({id:user._id , emailId:user.emailId,role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
-        res.cookie('token',token,{maxAge:60*60*1000});
+//        res.cookie("token", token, {
+//     httpOnly: true,
+//     secure: isProduction,
+//     sameSite: isProduction ? "None" : "Lax",
+//     maxAge: 60 * 60 * 1000,
+// });
+res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    maxAge: 60 * 60 * 1000,
+});
         res.status(200).json({
             user:reply,
             message:"loggedin successfully"
@@ -84,7 +101,18 @@ const logout=async(req,res)=>{
          await redisClient.set(`token:${token}`,'Blocked');
          await redisClient.expireAt(`token:${token}`,payload.exp);
       //cookies clear kar dena
-      res.cookie('token',null,{expires:new Date(Date.now())});
+      //
+      // res.cookie('token',null,{expires:new Date(Date.now())});
+//       res.clearCookie("token", {
+//     httpOnly: true,
+//     secure: isProduction,
+//     sameSite: isProduction ? "None" : "Lax",
+// });
+res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+});
       res.send("User logged out successfully");
     }
     catch(err){
@@ -105,7 +133,12 @@ const adminRegister = async(req,res)=>{
         const user= await User.create(req.body);
         const token=jwt.sign({id:user._id , emailId:user.emailId,role:'user'},process.env.JWT_KEY,{expiresIn:60*60});
 
-         res.cookie('token',token,{maxAge:60*60*1000});
+         res.cookie("token", token, {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "None" : "Lax",
+    maxAge: 60 * 60 * 1000,
+});
          res.status(201).send("user registered successfully");
 
 
