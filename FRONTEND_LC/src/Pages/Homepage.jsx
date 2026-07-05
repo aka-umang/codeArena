@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../utils/axiosClient';
 import { logoutUser } from '../authSlice';
 import { fetchProblems } from "../problemSlice";
+import { CircleUserRound, Crown, LogOut, Shield } from "lucide-react";
 
 function Homepage() {
   const dispatch = useDispatch();
@@ -81,17 +82,71 @@ useEffect(() => {
         <div className="flex-1">
           <NavLink to="/" className="btn btn-ghost text-xl">CODEARENA</NavLink>
         </div>
-        <div className="flex-none gap-4">
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} className="btn btn-ghost">
-              {user?.firstName}
-            </div>
-            <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-              <li><button onClick={handleLogout}>Logout</button></li>
-              {user.role==='admin' && <li><NavLink to="/admin">Admin Panel</NavLink></li>}
-            </ul>
-          </div>
+        <div className="flex-none">
+  <div className="dropdown dropdown-end">
+
+    <button
+      tabIndex={0}
+      className="btn btn-ghost btn-circle p-0"
+    >
+      <div className="avatar placeholder">
+        <div className="bg-primary text-primary-content rounded-full w-10">
+          <span className="font-semibold text-lg">
+            {user?.firstName?.charAt(0).toUpperCase()}
+          </span>
         </div>
+      </div>
+    </button>
+
+    <ul
+      tabIndex={0}
+      className="menu menu-sm dropdown-content mt-3 z-[1] p-3 shadow-xl bg-base-100 rounded-2xl w-64 border border-base-300"
+    >
+
+      <li className="menu-title">
+        <div className="flex flex-col items-start">
+
+          <span className="text-base font-bold">
+            {user?.firstName}
+          </span>
+
+          <span className="text-xs text-base-content/60">
+            {user?.emailId}
+          </span>
+
+          {user?.isPremium ? (
+            <span className="badge badge-warning mt-2">
+              👑 Premium
+            </span>
+          ) : (
+            <span className="badge badge-neutral mt-2">
+              Free Member
+            </span>
+          )}
+
+        </div>
+      </li>
+
+      <div className="divider my-1"></div>
+
+      {user?.role === "admin" && (
+        <li>
+          <NavLink to="/admin">
+            🛠 Admin Panel
+          </NavLink>
+        </li>
+      )}
+
+      <li>
+        <button onClick={handleLogout}>
+          🚪 Logout
+        </button>
+      </li>
+
+    </ul>
+
+  </div>
+</div>
       </nav>
 
       {/* Main Content */}

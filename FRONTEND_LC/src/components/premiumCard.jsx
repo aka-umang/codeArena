@@ -87,8 +87,9 @@ const PremiumCard = ({ feature = "Video Solutions" }) => {
         <button
           className="btn btn-warning btn-wide w-full mt-8"
         >
+            disabled
           <Lock className="w-5 h-5" />
-          Upgrade to Premium
+            Upgrade Coming Soon
         </button>
 
         <p className="text-center text-xs text-base-content/50 mt-3">
