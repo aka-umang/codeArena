@@ -148,4 +148,32 @@ const deleteVideo = async (req, res) => {
   }
 };
 
-module.exports = {generateUploadSignature,saveVideoMetadata,deleteVideo};
+
+const getVideo = async (req, res) => {
+
+    try {
+
+        const { problemId } = req.params;
+
+        const video = await SolutionVideo.findOne({ problemId });
+
+        if (!video) {
+            return res.status(404).json({
+                message: "Video not found"
+            });
+        }
+
+        res.status(200).json(video);
+
+    }
+    catch (err) {
+
+        res.status(500).json({
+            message: err.message
+        });
+
+    }
+
+}
+
+module.exports = {generateUploadSignature,saveVideoMetadata,deleteVideo,getVideo};

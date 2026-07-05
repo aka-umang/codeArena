@@ -46,7 +46,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minLength: 8
-     }
+     },
+     isPremium: {
+    type: Boolean,
+    default: false
+}
 },{timestamps: true});
 
 const user = mongoose.model('user', userSchema);
