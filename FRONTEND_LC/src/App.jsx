@@ -8,7 +8,7 @@ import { useEffect } from "react";
 ///import AdminPanel from "./Pages/AdminPanel";
 import ProblemPage from "./Pages/ProblemPage";
 import AdminPanel from "./components/AdminPanel";
-import Admin from "./pages/Admin";
+import Admin from "./Pages/Admin";
 import AdminDelete from "./components/AdminDelete"
 import AdminVideo from "./components/AdminVideo"
 import AdminUpload from "./components/AdminUpload"
