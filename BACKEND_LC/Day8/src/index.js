@@ -12,10 +12,14 @@ const submitRouter = require('./routes/submit')
 const aiRouter = require('./routes/aiChatting')
 const videoRouter = require('./routes/videoCreator')
 const cors = require('cors')
+// app.use(cors({
+//     origin:'http://localhost:5173',
+//     credentials:true
+// }))
 app.use(cors({
-    origin:'http://localhost:5173',
-    credentials:true
-}))
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+}));
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
@@ -32,11 +36,15 @@ app.use('/problem',problemRouter)
 app.use('/submission',submitRouter)
 app.use('/ai', aiRouter);
 app.use('/video', videoRouter);
+
+
 const InitializeConnection = async () => {
     try {
         await Promise.all([main(), Redisclient.connect()]);
         console.log('Connected to DB and Redis');
-        app.listen(process.env.PORT, () => {
+        const PORT = process.env.PORT || 3000;
+
+        app.listen(PORT, () => {
             console.log(`Server running on ${process.env.PORT}`);
         });
 }
