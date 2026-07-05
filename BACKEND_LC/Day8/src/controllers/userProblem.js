@@ -5,6 +5,7 @@ const {getLanguageById,submitBatch,submitToken}=require("../utils/Problemutility
 const Problem= require("../models/problem")
 const User = require("../models/user");
 const Submission = require("../models/submission");
+const SolutionVideo = require("../models/solutionVideo");
 const createProblem = async(req,res)=>{
    console.log("CREATE PROBLEM HIT");
     const {title,description,difficulty,tags,visibleTestCases,hiddenTestCases,startCode,referenceSolution,problemCreator}=req.body;
@@ -152,21 +153,26 @@ const getProblemById = async(req,res)=>{
    const getProblem = await Problem.findById(id) .select('_id title description difficulty tags visibleTestCases startCode referenceSolution ')  
    if(!getProblem) return res.status(404).send("problem is missing")
 
-      const videos = await SolutionVideo.find({problemId:id});
+      const videos = await SolutionVideo.findOne({problemId:id});
 
    if(videos){    
-   getProblem.secureUrl = secureUrl;
-   getProblem.cloudinaryPublicId = cloudinaryPublicId;
-   getProblem.thumbnailUrl = thumbnailUrl;
-   getProblem.duration = duration;
+   getProblem.secureUrl = videos.secureUrl;
+   getProblem.cloudinaryPublicId = videos.cloudinaryPublicId;
+   getProblem.thumbnailUrl = videos.thumbnailUrl;
+   getProblem.duration = videos.duration;
 
    return res.status(200).send(getProblem);
    }
     res.status(200).send(getProblem)   
   }
-  catch{
-   res.status(500).send("Error: "+err)
-  }
+  catch (err) {
+    console.log("ERROR:", err);
+    console.log(err.stack);
+
+    res.status(500).json({
+        error: err.message
+    });
+}
 }
 const getAllProblem = async (req, res) => {
   try {
