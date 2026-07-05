@@ -5,6 +5,8 @@ import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import ChatAi from '../components/ChatAi';
 import Editorial from '../components/Editorial';
+import WatchVideoCard from '../components/watchVideo';
+import PremiumCard from '../components/premiumCard';
 
 
 const ProblemPage = () => {
@@ -167,7 +169,14 @@ const [videoLoading, setVideoLoading] = useState(false);
 //       }
 //     ]
 //   };
+//problem id change hone p video wgra k state reset
+useEffect(() => {
 
+    setVideoData(null);
+    setVideoError("");
+    setVideoLoading(false);
+
+}, [problemId]);
   // Fetch problem data
   useEffect(() => {
     const fetchProblem = async () => {
@@ -403,14 +412,29 @@ Chat AI
                   <h2 className="text-xl font-bold mb-4">Editorial</h2>
                   <div className="whitespace-pre-wrap text-sm leading-relaxed">
                     {/* <Editorial secureUrl={problem.secureUrl} thumbnailUrl={problem.thumbnailUrl} duration={problem.duration} /> */}
-                    <Editorial
-    secureUrl={videoData?.secureUrl}
-    thumbnailUrl={videoData?.thumbnailUrl}
-    duration={videoData?.duration}
-    loading={videoLoading}
-    error={videoError}
-    fetchVideo={fetchPremiumVideo}
-/>
+                 {videoLoading ? (
+
+    <div className="flex justify-center items-center h-72">
+        <span className="loading loading-spinner loading-lg"></span>
+    </div>
+
+) : videoData ? (
+
+    <Editorial
+        secureUrl={videoData.secureUrl}
+        thumbnailUrl={videoData.thumbnailUrl}
+        duration={videoData.duration}
+    />
+
+) : videoError === "PREMIUM" ? (
+
+    <PremiumCard />
+
+) : (
+
+   <WatchVideoCard fetchPremiumVideo={fetchPremiumVideo} />
+
+)}
                   </div>
                 </div>
               )}
