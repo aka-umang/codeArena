@@ -17,7 +17,7 @@ function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, loading,error } = useSelector((state) => state.auth); // Removed error as it wasn't used
-
+console.log("Signup rendered, error =", error);
   const {
     register,
     handleSubmit,
