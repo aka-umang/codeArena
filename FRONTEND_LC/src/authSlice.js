@@ -82,9 +82,6 @@ const authSlice = createSlice({
         state.user = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
-
-    console.log("REJECTED ACTION:", action);
-
     state.loading = false;
     state.error = action.payload?.message || "Something went wrong";
     state.isAuthenticated = false;
