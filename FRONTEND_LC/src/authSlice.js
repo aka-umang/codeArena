@@ -120,10 +120,10 @@ console.log("REGISTER REJECTED");
         state.isAuthenticated = !!action.payload;
         state.user = action.payload;
       })
-      .addCase(checkAuth.rejected, (state) => {
+      .addCase(checkAuth.rejected, (state, action) => {
          console.log("CHECK AUTH REJECTED");
     state.loading = false;
-    state.error =action.payload?.message || 'Something went wrong' ;
+    state.error =action?.payload?.message || 'Something went wrong' ;
     state.isAuthenticated = false;
     state.user = null;
 })
