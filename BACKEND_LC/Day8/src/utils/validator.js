@@ -1,9 +1,35 @@
-const validator = require('validator');
-const validate=(data)=>{
-   const mandatoryFields=['firstName','emailId','password'];
-   const isAllowed=mandatoryFields.every((k)=>Object.keys(data).includes(k));
-    if(!isAllowed) throw new Error('Missing mandatory fields');
-    if(!validator.isEmail(data.emailId)) throw new Error('Invalid email id');
-    if(!validator.isStrongPassword(data.password)) throw new Error('Password should be strong');
-}
-module.exports=validate;
+const validator = require("validator");
+
+const validate = (data) => {
+
+    const { firstName, emailId, password } = data;
+
+    if (!firstName?.trim())
+        throw new Error("Please enter your name.");
+
+    if (!emailId?.trim())
+        throw new Error("Email is required.");
+
+    if (!validator.isEmail(emailId))
+        throw new Error("Please enter a valid email address.");
+
+    if (!password)
+        throw new Error("Password is required.");
+
+    if (
+        !validator.isStrongPassword(password, {
+            minLength: 8,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 0
+        })
+    ) {
+        throw new Error(
+            "Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number."
+        );
+    }
+
+};
+
+module.exports = validate;

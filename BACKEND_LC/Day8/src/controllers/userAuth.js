@@ -12,11 +12,25 @@ const register=async(req,res)=>{
     try{
         //validate the data
         validate(req.body);
-        const {firstName,emailId,password}=req.body;
+       const firstName = req.body.firstName.trim();
+
+const emailId = req.body.emailId
+    .trim()
+    .toLowerCase();
+
+const password = req.body.password;
+req.body.emailId = emailId;
+req.body.firstName = firstName;
         req.body.role='user'
 
        req.body.password= await bcrypt.hash(password,10) 
+        const existingUser = await User.findOne({ emailId });
 
+if (existingUser) {
+    return res.status(409).json({
+        message: "An account with this email already exists."
+    });
+}
         const user= await User.create(req.body);
         const token=jwt.sign({id:user._id , emailId:user.emailId,role:'user'},process.env.JWT_KEY,{expiresIn:60*60});
         const reply = {
