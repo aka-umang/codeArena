@@ -67,17 +67,19 @@ const authSlice = createSlice({
     builder
       // Register User Cases
       .addCase(registerUser.pending, (state) => {
+        console.log("REGISTER PENDING");
         state.loading = true;
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
+        console.log("REGISTER FULFILLED");
         state.loading = false;
         state.isAuthenticated = !!action.payload;
         state.user = action.payload;
       })
       .addCase(registerUser.rejected, (state, action) => {
     console.log("REGISTER ERROR:", action.payload);
-
+console.log("REGISTER REJECTED");
     state.loading = false;
     state.error = action.payload?.message || "Something went wrong";
     state.isAuthenticated = false;
@@ -87,15 +89,19 @@ const authSlice = createSlice({
   
       // Login User Cases
       .addCase(loginUser.pending, (state) => {
+        console.log("LOGIN PENDING");
         state.loading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        console.log("LOGIN FULFILLED");
         state.loading = false;
         state.isAuthenticated = !!action.payload;
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        console.log("LOGIN ERROR:", action.payload);
+        console.log("LOGIN REJECTED");
         state.loading = false;
         state.error = action.payload?.message || 'Something went wrong';
         state.isAuthenticated = false;
@@ -104,15 +110,18 @@ const authSlice = createSlice({
   
       // Check Auth Cases
       .addCase(checkAuth.pending, (state) => {
+         console.log("CHECK AUTH PENDING");
         state.loading = true;
         state.error = null;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
+         console.log("CHECK AUTH FULFILLED");
         state.loading = false;
         state.isAuthenticated = !!action.payload;
         state.user = action.payload;
       })
       .addCase(checkAuth.rejected, (state) => {
+         console.log("CHECK AUTH REJECTED");
     state.loading = false;
     state.error = null;
     state.isAuthenticated = false;
@@ -121,16 +130,20 @@ const authSlice = createSlice({
   
       // Logout User Cases
       .addCase(logoutUser.pending, (state) => {
+        console.log("LOGOUT PENDING");
         state.loading = true;
         state.error = null;
       })
       .addCase(logoutUser.fulfilled, (state) => {
+        console.log("LOGOUT FULFILLED");
         state.loading = false;
         state.user = null;
         state.isAuthenticated = false;
         state.error = null;
       })
       .addCase(logoutUser.rejected, (state, action) => {
+        console.log("LOGOUT ERROR:", action.payload);
+        console.log("LOGOUT REJECTED");
         state.loading = false;
         state.error = action.payload?.message || 'Something went wrong';
         state.isAuthenticated = false;
