@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, NavLink } from 'react-router';
-import { registerUser } from '../authSlice';
+import { registerUser,clearError } from '../authSlice';
 
 const signupSchema = z.object({
   firstName: z.string().min(3, "Minimum character should be 3"),
@@ -29,7 +29,8 @@ function Signup() {
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
-
+const emailRegister = register("emailId");
+//const firstNameRegister = register("firstName");
   const onSubmit = (data) => {
     dispatch(registerUser(data));
   };
@@ -61,12 +62,19 @@ function Signup() {
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
-              <input
-                type="email"
-                placeholder="john@example.com"
-                className={`input input-bordered w-full ${errors.emailId ? 'input-error' : ''}`} // Ensure w-full for consistency
-                {...register('emailId')}
-              />
+               
+             <input
+  type="email"
+  placeholder="john@example.com"
+  className={`input input-bordered w-full ${errors.emailId ? 'input-error' : ''}`}
+
+  {...emailRegister}
+
+  onChange={(e) => {
+    emailRegister.onChange(e);   // React Hook Form ko batana ki value change hui
+    dispatch(clearError());      // Backend error clear karna
+  }}
+/>
               {errors.emailId && (
                 <span className="text-error text-sm mt-1">{errors.emailId.message}</span>
               )}

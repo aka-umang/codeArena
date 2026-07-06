@@ -59,7 +59,10 @@ const authSlice = createSlice({
     error: null
   },
   reducers: {
+  clearError: (state) => {
+    state.error = null;
   },
+},
   extraReducers: (builder) => {
     builder
       // Register User Cases
@@ -132,5 +135,5 @@ const authSlice = createSlice({
       });
   }
 });
-
+export const { clearError } = authSlice.actions;
 export default authSlice.reducer;
