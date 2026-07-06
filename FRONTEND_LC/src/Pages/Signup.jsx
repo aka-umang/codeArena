@@ -11,6 +11,16 @@ const signupSchema = z.object({
   emailId: z.string().email("Invalid Email"),
   password: z.string().min(8, "Password is too weak")
 });
+useEffect(() => {
+  console.log("Signup Mounted");
+
+  return () => {
+    console.log("Signup Unmounted");
+  };
+}, []);
+useEffect(() => {
+  console.log("ERROR CHANGED:", error);
+}, [error]);
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
