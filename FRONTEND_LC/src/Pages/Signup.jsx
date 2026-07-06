@@ -80,10 +80,11 @@ useEffect(() => {
 
   {...emailRegister}
 
-  onChange={(e) => {
-    emailRegister.onChange(e);   // React Hook Form ko batana ki value change hui
-    dispatch(clearError());      // Backend error clear karna
-  }}
+ onChange={(e) => {
+    console.log("EMAIL ONCHANGE");
+    emailRegister.onChange(e);
+    dispatch(clearError());
+}}
 />
               {errors.emailId && (
                 <span className="text-error text-sm mt-1">{errors.emailId.message}</span>
