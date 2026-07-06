@@ -20,9 +20,9 @@ function App(){
   const {isAuthenticated,user,loading} = useSelector((state)=>state.auth);
 
   // check initial authentication
-  // useEffect(() => {
-  //   dispatch(checkAuth());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
 
   
