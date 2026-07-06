@@ -32,9 +32,10 @@ console.log("Signup rendered, error =", error);
   }, [isAuthenticated, navigate]);
 const emailRegister = register("emailId");
 //const firstNameRegister = register("firstName");
-  const onSubmit = (data) => {
-    dispatch(registerUser(data));
-  };
+ const onSubmit = (data) => {
+  dispatch(clearError());   // optional, but recommended
+  dispatch(registerUser(data));
+};
 useEffect(() => {
   console.log("Signup Mounted");
 
@@ -68,28 +69,33 @@ useEffect(() => {
             </div>
 
             {/* Email Field */}
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-               
-             <input
-  type="email"
-  placeholder="john@example.com"
-  className={`input input-bordered w-full ${errors.emailId ? 'input-error' : ''}`}
+           
+              {/* Email Field */}
+<div className="form-control mt-4">
+  <label className="label">
+    <span className="label-text">Email</span>
+  </label>
 
-  {...emailRegister}
+  <input
+    type="email"
+    placeholder="john@example.com"
+    className={`input input-bordered w-full ${
+      errors.emailId ? "input-error" : ""
+    }`}
+    {...register("emailId")}
+    onFocus={() => {
+      if (error) {
+        dispatch(clearError());
+      }
+    }}
+  />
 
- onChange={(e) => {
-    console.log("EMAIL ONCHANGE");
-    emailRegister.onChange(e);
-    dispatch(clearError());
-}}
-/>
-              {errors.emailId && (
-                <span className="text-error text-sm mt-1">{errors.emailId.message}</span>
-              )}
-            </div>
+  {errors.emailId && (
+    <span className="text-error text-sm mt-1">
+      {errors.emailId.message}
+    </span>
+  )}
+</div>
 
             {/* Password Field with Toggle */}
             <div className="form-control mt-4">
