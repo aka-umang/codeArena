@@ -123,7 +123,7 @@ console.log("REGISTER REJECTED");
       .addCase(checkAuth.rejected, (state, action) => {
          console.log("CHECK AUTH REJECTED");
     state.loading = false;
-    state.error =action?.payload?.message || 'Something went wrong' ;
+    state.error =null ;
     state.isAuthenticated = false;
     state.user = null;
 })
