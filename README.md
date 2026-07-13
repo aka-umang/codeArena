@@ -134,7 +134,7 @@ CodeArena
 
 ---
 
-# 📸 Screenshots
+<!-- # 📸 Screenshots
 
 > Add screenshots of:
 
@@ -144,14 +144,14 @@ CodeArena
 - Problem Page
 - Admin Dashboard
 
----
+--- -->
 
 # ⚙ Installation
 
 ## Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/codearena.git
+git clone https://github.com/ayushimaheshwari9494-eng/CODEARENA.git
 ```
 
 ## Backend
@@ -225,8 +225,7 @@ This project helped me gain practical experience with:
 
 **Ayushi Maheshwari**
 
-- GitHub: https://github.com/yourusername
-- LinkedIn: https://linkedin.com/in/yourprofile
+
 
 ---
 
