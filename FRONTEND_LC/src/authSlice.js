@@ -5,10 +5,13 @@ export const registerUser = createAsyncThunk(
   'auth/register',
   async (userData, { rejectWithValue }) => {
     try {
-    const response =  await axiosClient.post('/user/register', userData);
-    return response.data.user;
+      const response = await axiosClient.post('/user/register', userData);
+      return response.data.user;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error.response?.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: 'Unable to reach the server. Please check your connection and try again.' });
     }
   }
 );
@@ -21,11 +24,13 @@ export const loginUser = createAsyncThunk(
       const response = await axiosClient.post('/user/login', credentials);
       return response.data.user;
     } catch (error) {
-      return rejectWithValue(error);
+      if (error.response?.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue({ message: 'Unable to reach the server. Please check your connection and try again.' });
     }
   }
 );
-
 export const checkAuth = createAsyncThunk(
   'auth/check',
   async (_, { rejectWithValue }) => {
@@ -59,10 +64,10 @@ const authSlice = createSlice({
     error: null
   },
   reducers: {
-  clearError: (state) => {
-    state.error = null;
+    clearError: (state) => {
+      state.error = null;
+    },
   },
-},
   extraReducers: (builder) => {
     builder
       // Register User Cases
@@ -78,15 +83,15 @@ const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(registerUser.rejected, (state, action) => {
-    console.log("REGISTER ERROR:", action.payload);
-console.log("REGISTER REJECTED");
-    state.loading = false;
-    state.error = action.payload?.message || "Something went wrong";
-    state.isAuthenticated = false;
-    state.user = null;
-})
-      
-  
+        console.log("REGISTER ERROR:", action.payload);
+        console.log("REGISTER REJECTED");
+        state.loading = false;
+        state.error = action.payload?.message || "Something went wrong";
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+
+
       // Login User Cases
       .addCase(loginUser.pending, (state) => {
         console.log("LOGIN PENDING");
@@ -107,27 +112,27 @@ console.log("REGISTER REJECTED");
         state.isAuthenticated = false;
         state.user = null;
       })
-  
+
       // Check Auth Cases
       .addCase(checkAuth.pending, (state) => {
-         console.log("CHECK AUTH PENDING");
+        console.log("CHECK AUTH PENDING");
         state.loading = true;
         state.error = null;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
-         console.log("CHECK AUTH FULFILLED");
+        console.log("CHECK AUTH FULFILLED");
         state.loading = false;
         state.isAuthenticated = !!action.payload;
         state.user = action.payload;
       })
       .addCase(checkAuth.rejected, (state, action) => {
-         console.log("CHECK AUTH REJECTED");
-    state.loading = false;
-    state.error =null ;
-    state.isAuthenticated = false;
-    state.user = null;
-})
-  
+        console.log("CHECK AUTH REJECTED");
+        state.loading = false;
+        state.error = null;
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+
       // Logout User Cases
       .addCase(logoutUser.pending, (state) => {
         console.log("LOGOUT PENDING");
@@ -149,7 +154,7 @@ console.log("REGISTER REJECTED");
         state.isAuthenticated = false;
         state.user = null;
       });
-      
+
   }
 });
 export const { clearError } = authSlice.actions;
