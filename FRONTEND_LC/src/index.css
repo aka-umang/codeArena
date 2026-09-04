@@ -1,2 +1,53 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: codearena --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "codearena";
+  default: true;
+  color-scheme: dark;
+
+  --color-base-100: #0B0C14;
+  --color-base-200: #12141F;
+  --color-base-300: #1B1E2C;
+  --color-base-content: #E7E8F0;
+
+  --color-primary: #7C6CF6;
+  --color-primary-content: #FFFFFF;
+
+  --color-secondary: #F2B84B;
+  --color-secondary-content: #1B1E2C;
+
+  --color-accent: #35D0BA;
+  --color-accent-content: #06231F;
+
+  --color-neutral: #1B1E2C;
+  --color-neutral-content: #C8CAD8;
+
+  --color-info: #5CB4F2;
+  --color-success: #3DD68C;
+  --color-warning: #F2B84B;
+  --color-error: #F2685E;
+
+  --radius-box: 1rem;
+  --radius-field: 0.6rem;
+  --radius-selector: 0.5rem;
+
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-size: 28px 28px;
+}

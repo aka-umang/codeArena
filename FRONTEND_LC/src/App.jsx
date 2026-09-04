@@ -12,6 +12,7 @@ import Admin from "./Pages/Admin";
 import AdminDelete from "./components/AdminDelete"
 import AdminVideo from "./components/AdminVideo"
 import AdminUpload from "./components/AdminUpload"
+import Dashboard from "./Pages/Dashboard"
 
 
 function App(){
@@ -44,6 +45,7 @@ function App(){
       <Route path="/admin/videos" element={isAuthenticated && user?.role === 'admin' ? <AdminVideo /> : <Navigate to="/" />} />
       <Route path="/admin/upload/:problemId" element={isAuthenticated && user?.role === 'admin' ? <AdminUpload /> : <Navigate to="/" />} />
        <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
+       <Route path="/dashboard" element={isAuthenticated ? <Dashboard/> : <Navigate to="/login" />}></Route>
        {/* <Route 
         path="/admin" 
         element={

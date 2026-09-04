@@ -1,20 +1,30 @@
 const { GoogleGenAI } = require("@google/genai");
 
+const solveDoubt = async (req, res) => {
+    try {
+        const { messages, title, description, testCases, startCode } = req.body;
 
-const solveDoubt = async(req , res)=>{
+        // Gemini's SDK throws if `contents` is empty, and that used to happen
+        // silently (see below) whenever a conversation's first message went
+        // out without being included. Guard it here too so a bad request
+        // always gets a real error back instead of the request just hanging.
+        if (!Array.isArray(messages) || messages.length === 0) {
+            return res.status(400).json({ message: "No message provided" });
+        }
 
-
-    try{
-
-        const {messages,title,description,testCases,startCode} = req.body;
         const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY });
-       
-        async function main() {
+
+        // NOTE: this used to be a nested `async function main() {...}` that was
+        // called without `await` or `.catch()`. When generateContent threw
+        // (e.g. on empty contents), the rejection was unhandled, the outer
+        // try/catch never saw it, and no response was ever sent — the
+        // request just hung until the client gave up. Calling it directly,
+        // awaited, inside this try/catch fixes that.
         const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: messages,
-        config: {
-        systemInstruction: `
+            model: "gemini-2.5-flash",
+            contents: messages,
+            config: {
+                systemInstruction: `
 You are an expert Data Structures and Algorithms (DSA) tutor specializing in helping users solve coding problems. Your role is strictly limited to DSA-related assistance only.
 
 ## CURRENT PROBLEM CONTEXT:
@@ -81,26 +91,21 @@ You are an expert Data Structures and Algorithms (DSA) tutor specializing in hel
 - Promote best coding practices
 
 Remember: Your goal is to help users learn and understand DSA concepts through the lens of the current problem, not just to provide quick answers.
-`},
-    });
-     
-    res.status(201).json({
-        message:response.text
-    });
-    console.log(response.text);
-    }
+`
+            },
+        });
 
-    main();
-      
-    }
-   catch(err){
-    console.log(err);
-    console.log(err.message);
+        res.status(201).json({
+            message: response.text
+        });
+    } catch (err) {
+        console.log(err);
+        console.log(err.message);
 
-    res.status(500).json({
-        message: err.message
-    });
-}
-}
+        res.status(500).json({
+            message: err.message || "Failed to get a response from the AI"
+        });
+    }
+};
 
 module.exports = solveDoubt;

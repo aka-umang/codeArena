@@ -472,11 +472,8 @@ Chat AI
               
 
               {activeLeftTab === 'chatAI' && (
-                <div className="prose max-w-none">
-                  <h2 className="text-xl font-bold mb-4">CHAT with AI</h2>
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                    <ChatAi problem={problem}></ChatAi>
-                  </div>
+                <div className="h-full">
+                  <ChatAi problem={problem}></ChatAi>
                 </div>
               )}
             </>

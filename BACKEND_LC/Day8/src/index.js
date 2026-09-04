@@ -11,6 +11,7 @@ const problemRouter=require('./routes/problemCreator')
 const submitRouter = require('./routes/submit')
 const aiRouter = require('./routes/aiChatting')
 const videoRouter = require('./routes/videoCreator')
+const dashboardRouter = require('./routes/dashboard')
 const cors = require('cors')
 // app.use(cors({
 //     origin:'http://localhost:5173',
@@ -39,6 +40,7 @@ app.use('/problem',problemRouter)
 app.use('/submission',submitRouter)
 app.use('/ai', aiRouter);
 app.use('/video', videoRouter);
+app.use('/dashboard', dashboardRouter);
 
 
 const InitializeConnection = async () => {

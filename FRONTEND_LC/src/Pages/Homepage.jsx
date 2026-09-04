@@ -22,6 +22,8 @@ function Homepage() {
 
   const [solvedProblems, setSolvedProblems] = useState([]);
 
+  const [currentStreak, setCurrentStreak] = useState(0);
+
   const [filters, setFilters] = useState({
     difficulty: 'all',
     tag: 'all',
@@ -83,6 +85,40 @@ function Homepage() {
       fetchSolvedProblems();
     } else {
       setSolvedProblems([]);
+    }
+
+  }, [user]);
+
+
+  // ==========================================
+  // FETCH CURRENT STREAK (for navbar icon)
+  // ==========================================
+
+  useEffect(() => {
+
+    const fetchStreak = async () => {
+
+      try {
+
+        const { data } = await axiosClient.get("/dashboard/streak");
+
+        setCurrentStreak(data.currentStreak || 0);
+
+      } catch (error) {
+
+        console.error(
+          "Error fetching streak:",
+          error
+        );
+
+      }
+
+    };
+
+    if (user) {
+      fetchStreak();
+    } else {
+      setCurrentStreak(0);
     }
 
   }, [user]);
@@ -158,28 +194,50 @@ function Homepage() {
 
   return (
 
-    <div className="min-h-screen bg-base-200">
+    <div className="min-h-screen bg-base-100">
 
 
       {/* ======================================
           NAVIGATION BAR
       ====================================== */}
 
-      <nav className="navbar bg-base-100 shadow-lg px-4">
+      <nav className="navbar bg-base-200 border-b border-base-300 shadow-lg px-4">
 
         <div className="flex-1">
 
           <NavLink
             to="/"
-            className="btn btn-ghost text-xl"
+            className="btn btn-ghost text-xl font-display font-bold tracking-tight"
           >
-            CODEARENA
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              CODEARENA
+            </span>
           </NavLink>
 
         </div>
 
 
-        <div className="flex-none">
+        <div className="flex-none flex items-center gap-2">
+
+          {user && (
+
+            <div
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-full border ${
+                currentStreak > 0
+                  ? "border-orange-500/30 bg-orange-500/10 text-orange-400"
+                  : "border-base-300 bg-base-300/40 text-base-content/50"
+              }`}
+              title={
+                currentStreak > 0
+                  ? `${currentStreak} day streak — keep it going!`
+                  : "No active streak yet — solve a problem today to start one"
+              }
+            >
+              <span>🔥</span>
+              <span className="font-mono font-semibold text-sm">{currentStreak}</span>
+            </div>
+
+          )}
 
           <div className="dropdown dropdown-end">
 
@@ -247,6 +305,11 @@ function Homepage() {
 
               <div className="divider my-1"></div>
 
+              <li>
+                <NavLink to="/dashboard">
+                  📊 Dashboard
+                </NavLink>
+              </li>
 
               {user?.role === "admin" && (
 
@@ -450,7 +513,7 @@ function Homepage() {
 
           {displayedProblems.length === 0 ? (
 
-            <div className="card bg-base-100 shadow-xl">
+            <div className="card bg-base-200 border border-base-300 shadow-xl">
 
               <div className="card-body text-center">
 
@@ -472,7 +535,7 @@ function Homepage() {
 
               <div
                 key={problem._id}
-                className="card bg-base-100 shadow-xl"
+                className="card bg-base-200 border border-base-300 shadow-xl hover:border-primary/40 transition-colors"
               >
 
                 <div className="card-body">

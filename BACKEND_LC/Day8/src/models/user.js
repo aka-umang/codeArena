@@ -50,7 +50,15 @@ const userSchema = new Schema({
      isPremium: {
     type: Boolean,
     default: false
-}
+},
+     // Rating starts at 0 for every new user and only goes up when they
+     // actually solve problems. Solving regularly (keeping a streak alive)
+     // earns bigger jumps, so the rank on the dashboard reflects real,
+     // consistent effort instead of just "who joined first".
+     rating: {
+        type: Number,
+        default: 0
+     }
 },{timestamps: true});
 
 const user = mongoose.model('user', userSchema);
