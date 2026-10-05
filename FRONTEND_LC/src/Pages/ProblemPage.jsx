@@ -376,7 +376,22 @@ Chat AI
               {activeLeftTab === 'description' && (
                 <div>
                   <div className="flex items-center gap-4 mb-6">
-                    <h1 className="text-2xl font-bold">{problem.title}</h1>
+                    <h1 className="text-2xl font-bold flex items-center gap-2">
+                      {problem.title}
+                      <a 
+                        href={`https://leetcode.com/problems/${problem.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/`}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="tooltip tooltip-right"
+                        data-tip="Solve on LeetCode"
+                      >
+                        <img 
+                          src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" 
+                          alt="LeetCode" 
+                          className="h-6 w-6 hover:opacity-80 transition-opacity" 
+                        />
+                      </a>
+                    </h1>
                     <div className={`badge badge-outline ${getDifficultyColor(problem.difficulty)}`}>
                       {problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}
                     </div>

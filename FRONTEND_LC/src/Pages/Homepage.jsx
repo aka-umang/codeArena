@@ -554,21 +554,19 @@ function Homepage() {
                         {problem.title}
                       </NavLink>
                       
-                      {problem.title === "Two Sum" && (
-                        <a 
-                          href="https://leetcode.com/problems/two-sum/" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="tooltip tooltip-right"
-                          data-tip="Solve on LeetCode"
-                        >
-                          <img 
-                            src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" 
-                            alt="LeetCode" 
-                            className="h-5 w-5 hover:opacity-80 transition-opacity" 
-                          />
-                        </a>
-                      )}
+                      <a 
+                        href={`https://leetcode.com/problems/${problem.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/`}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="tooltip tooltip-right"
+                        data-tip="Solve on LeetCode"
+                      >
+                        <img 
+                          src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" 
+                          alt="LeetCode" 
+                          className="h-5 w-5 hover:opacity-80 transition-opacity" 
+                        />
+                      </a>
 
                     </h2>
 
