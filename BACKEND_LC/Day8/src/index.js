@@ -18,10 +18,17 @@ const cors = require('cors')
 //     credentials:true
 // }))
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://codearena-two-gamma.vercel.app"
-    ],
+    origin: function (origin, callback) {
+        const allowedOrigins = [
+            "http://localhost:5173",
+            process.env.CLIENT_URL
+        ];
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
 // Middleware
