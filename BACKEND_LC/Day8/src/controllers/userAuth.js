@@ -42,8 +42,8 @@ const register = async (req, res) => {
         }
         res.cookie("token", token, {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "None" : "Lax",
+            secure: true,
+            sameSite: "None",
             maxAge: 60 * 60 * 1000,
         });
         res.status(201).json({
@@ -155,8 +155,8 @@ const adminRegister = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "None" : "Lax",
+            secure: true,
+            sameSite: "None",
             maxAge: 60 * 60 * 1000,
         });
         res.status(201).send("user registered successfully");
