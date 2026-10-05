@@ -545,7 +545,7 @@ function Homepage() {
 
                   <div className="flex items-center justify-between">
 
-                    <h2 className="card-title">
+                    <h2 className="card-title flex items-center gap-2">
 
                       <NavLink
                         to={`/problem/${problem._id}`}
@@ -553,6 +553,22 @@ function Homepage() {
                       >
                         {problem.title}
                       </NavLink>
+                      
+                      {problem.title === "Two Sum" && (
+                        <a 
+                          href="https://leetcode.com/problems/two-sum/" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="tooltip tooltip-right"
+                          data-tip="Solve on LeetCode"
+                        >
+                          <img 
+                            src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" 
+                            alt="LeetCode" 
+                            className="h-5 w-5 hover:opacity-80 transition-opacity" 
+                          />
+                        </a>
+                      )}
 
                     </h2>
 
