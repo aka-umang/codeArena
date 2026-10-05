@@ -1,12 +1,10 @@
-const { createClient } = require('redis');
+const mockClient = {
+    connect: async () => console.log('Mock Redis connected (disabled for local dev)'),
+    exists: async (key) => false,
+    get: async (key) => null,
+    set: async (key, val, opts) => 'OK',
+    incr: async (key) => 1,
+    expireAt: async (key, timestamp) => 1
+};
 
-const client = createClient({
-    username: 'default',
-    password: process.env.REDIS_PASS,
-    socket: {
-        host: 'redis-17826.c10.us-east-1-4.ec2.cloud.redislabs.com',
-        port: 17826
-    }
-});
-
-module.exports = client;
+module.exports = mockClient;
